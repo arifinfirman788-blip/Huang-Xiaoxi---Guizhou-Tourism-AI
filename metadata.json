@@ -1,0 +1,7 @@
+{
+  "name": "黄小西&旅行社",
+  "description": "An intelligent travel assistant for Guizhou tourism, featuring trip planning, expert advice, and interactive chat.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
