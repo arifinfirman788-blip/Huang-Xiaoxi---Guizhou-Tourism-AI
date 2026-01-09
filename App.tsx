@@ -134,10 +134,10 @@ const ArchitectureSystem = () => {
             <div className="text-xs opacity-80 mt-1 font-mono uppercase tracking-wider">Full-Link Data Sharing Hub</div>
          </div>
          
-         {/* Lines connecting Top to Middle Layers - FIXED SVG PATHS */}
+         {/* Lines connecting Top to Middle Layers */}
          {/* Left Line (to C-End) */}
-         <svg className="absolute top-[80%] left-0 w-1/2 h-20 -z-10 overflow-visible pointer-events-none" viewBox="0 0 200 100">
-            <path d="M200 0 V 30 Q 200 60 100 60 H 30 V 90" fill="none" stroke="url(#gradientLeft)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_1s_linear_infinite]" />
+         <svg className="absolute top-[80%] left-0 w-1/2 h-20 -z-10 overflow-visible pointer-events-none">
+            <path d="M100% 0 V 30 Q 100% 60 50% 60 H 15% V 90" fill="none" stroke="url(#gradientLeft)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_1s_linear_infinite]" />
             <defs>
                <linearGradient id="gradientLeft" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5" />
@@ -147,8 +147,8 @@ const ArchitectureSystem = () => {
          </svg>
          
          {/* Right Line (to Agency Matrix) */}
-         <svg className="absolute top-[80%] right-0 w-1/2 h-20 -z-10 overflow-visible pointer-events-none" viewBox="0 0 200 100">
-            <path d="M0 0 V 30 Q 0 60 100 60 H 170 V 90" fill="none" stroke="url(#gradientRight)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_1s_linear_infinite]" />
+         <svg className="absolute top-[80%] right-0 w-1/2 h-20 -z-10 overflow-visible pointer-events-none">
+            <path d="M0 0 V 30 Q 0 60 50% 60 H 85% V 90" fill="none" stroke="url(#gradientRight)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_1s_linear_infinite]" />
             <defs>
                <linearGradient id="gradientRight" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5" />

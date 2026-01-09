@@ -11,7 +11,7 @@ const ScanOverlay: React.FC<Props> = ({ onClose, onSuccess }) => {
   const [phase, setPhase] = useState<'scanning' | 'analyzing' | 'redirecting'>('scanning');
 
   useEffect(() => {
-    // 模拟识别过程
+    // 模拟扫码过程
     const timer = setTimeout(() => {
        setPhase('analyzing');
        
@@ -20,10 +20,10 @@ const ScanOverlay: React.FC<Props> = ({ onClose, onSuccess }) => {
           
           setTimeout(() => {
             onSuccess({
-               type: 'privilege',
-               broker: '王导 · 金牌导游',
-               product: '黄果树VIP免排队特权包',
-               intentText: '您好！检测到王导正在为您申请【VIP绿色通道】专属权益。该服务旨在优化您的游玩路径，避开人流峰值，是否立即开启？'
+               type: 'service_privilege',
+               broker: '导游 · 王金牌',
+               product: '黄果树VIP免排队包',
+               intentText: '您好！检测到导游王金牌正在为您申请【VIP绿色通道】专属服务。该特权已由天逸旅行社审核通过，是否立即查看详情？'
             });
           }, 1000);
        }, 2000);
@@ -45,25 +45,18 @@ const ScanOverlay: React.FC<Props> = ({ onClose, onSuccess }) => {
 
       {phase === 'scanning' && (
         <div className="relative w-72 h-72">
-          {/* 四角边框 */}
           <div className="absolute top-0 left-0 w-10 h-10 border-t-4 border-l-4 border-indigo-500 rounded-tl-3xl"></div>
           <div className="absolute top-0 right-0 w-10 h-10 border-t-4 border-r-4 border-indigo-500 rounded-tr-3xl"></div>
           <div className="absolute bottom-0 left-0 w-10 h-10 border-b-4 border-l-4 border-indigo-500 rounded-bl-3xl"></div>
           <div className="absolute bottom-0 right-0 w-10 h-10 border-b-4 border-r-4 border-indigo-500 rounded-br-3xl"></div>
-          
-          {/* 模拟相机的扫描线 */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-indigo-400 to-transparent shadow-[0_0_20px_rgba(99,102,241,1)] animate-[scan_2s_ease-in-out_infinite]"></div>
-          
-          {/* 中心焦点 */}
           <div className="absolute inset-0 flex items-center justify-center">
              <div className="w-12 h-12 border border-white/20 rounded-full flex items-center justify-center animate-ping">
                 <div className="w-2 h-2 bg-white rounded-full"></div>
              </div>
           </div>
-
           <div className="absolute -bottom-20 left-0 right-0 text-center">
-             <p className="text-white text-sm font-bold tracking-widest animate-pulse">对准行程码或推荐标识获取特权</p>
-             <p className="text-white/40 text-[10px] mt-2 uppercase tracking-widest">Accessing exclusive travel benefits...</p>
+             <p className="text-white text-sm font-bold tracking-widest animate-pulse">正在识别导游推荐或景点标识</p>
           </div>
         </div>
       )}
@@ -77,11 +70,11 @@ const ScanOverlay: React.FC<Props> = ({ onClose, onSuccess }) => {
               </div>
            </div>
            <h3 className="text-white text-xl font-black mb-3">
-              {phase === 'analyzing' ? '正在匹配专属权益...' : '正在为您开启特权通道...'}
+              {phase === 'analyzing' ? '识别服务建议...' : '正在接入特权通道...'}
            </h3>
            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-2xl border border-white/10">
               <Loader2 size={16} className="animate-spin text-indigo-400" />
-              <span className="text-xs font-bold text-white/60">正在验证金牌导游推荐资质</span>
+              <span className="text-xs font-bold text-white/60">匹配专属行程优化方案</span>
            </div>
         </div>
       )}

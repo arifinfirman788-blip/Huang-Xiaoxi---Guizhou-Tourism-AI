@@ -36,17 +36,18 @@ const HomeView: React.FC<Props> = ({ onOpenExperts }) => {
   }, []);
 
   const handleScanSuccess = (intentData: any) => {
+    // 构造特权服务对应的 Agent 数据
     const brokerAgent: ServiceItem = {
-      id: 'dist_broker',
+      id: 'service_broker',
       name: intentData.broker,
       avatarUrl: 'https://picsum.photos/id/64/200/200',
       isVerified: true,
-      verifiedLabel: '金牌认证',
-      organizationName: '天悦旅行社 · 服务保障部',
+      verifiedLabel: '官方直选',
+      organizationName: '天悦旅行社 · 优质服务部',
       description: intentData.intentText,
-      tags: [{ text: '特权推荐', level: 'highlight' }, { text: '专业保障', level: 'primary' }],
-      consultationCount: 999,
-      promptQuestion: '立即开启专属服务通道',
+      tags: [{ text: '专属权益', level: 'highlight' }],
+      consultationCount: 99,
+      promptQuestion: '如何开启此项特权？',
       category: 'guide'
     };
     
@@ -56,14 +57,22 @@ const HomeView: React.FC<Props> = ({ onOpenExperts }) => {
 
   return (
     <div className="pt-4 pb-32">
-       {/* 基础组件 */}
+       {/* Expert Profile Card */}
        <ExpertCard onClick={onOpenExperts} />
+
+       {/* Dynamic Suggestion Rail */}
        <SuggestionRail />
+
+       {/* Banner */}
        <PromoBanner />
+
+       {/* Functional Grid */}
        <DashboardGrid />
+
+       {/* Floating Input Section (Sticky Bottom) */}
        <AskBar />
 
-       {/* 全屏覆盖层管理器 */}
+       {/* Overlays Container */}
        {overlay === 'mall' && (
          <div className="fixed inset-0 z-[100] bg-white animate-in slide-in-from-right duration-300">
             <MallView onBack={() => setOverlay('none')} />
@@ -85,7 +94,6 @@ const HomeView: React.FC<Props> = ({ onOpenExperts }) => {
                 setOverlay('none');
                 setDistAgent(null);
               }} 
-              onOpenShop={() => setOverlay('agency_shop')}
             />
          </div>
        )}

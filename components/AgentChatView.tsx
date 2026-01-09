@@ -1,18 +1,17 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowLeft, Phone, Mic, Send, Plus, MapPin, Globe, ChevronRight, Sparkles, X, Medal, Menu, ShoppingCart, ShieldCheck, CheckCircle2, Bot, CreditCard, LayoutGrid, Package, Building2 } from 'lucide-react';
+import { ArrowLeft, Phone, Mic, Send, Plus, MapPin, Globe, ChevronRight, Sparkles, X, Medal, Menu, ShoppingCart, ShieldCheck, CheckCircle2, Bot, CreditCard, LayoutGrid, Package, Store } from 'lucide-react';
 import { ServiceItem, Message } from '../types';
 import { sendMessageToGemini } from '../services/geminiService';
 
 interface Props {
   agent: ServiceItem;
   onBack: () => void;
-  onOpenShop?: () => void; // 新增跳转旗舰店接口
 }
 
-const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
+const AgentChatView: React.FC<Props> = ({ agent, onBack }) => {
   const [messages, setMessages] = useState<Message[]>([
-     { id: 'welcome', role: 'model', text: '您好！我是您的智能导服黄小西。检测到当期景区人流量较大，排队预计超过1小时。为了提升您的游玩体验，王导为您预留了【VIP绿色通道】特权，由天悦旅行社官方直供，是否需要立即开启？' }
+     { id: 'welcome', role: 'model', text: '您好！我是您的智能导服黄小西。检测到当前景区人流量较大，排队预计超过1小时。为了提升您的游玩体验，王导为您申请了【VIP绿色通道】特权服务，是否需要立即开启？' }
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -36,9 +35,13 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
      setTimeout(() => {
         setIsPaid(true);
         setShowOrderCard(false);
-        setMessages(prev => [...prev, { id: 'pay_succ', role: 'model', text: '订购成功！🎉 已为您成功锁定【VIP绿色通道】名额。导游王金牌将为您引导至专属入口。祝您游玩愉快！' }]);
+        setMessages(prev => [...prev, { id: 'pay_succ', role: 'model', text: '开启成功！🎉 已为您成功锁定【VIP绿色通道】特权。导游王金牌将为您引导至专属入口。祝您游玩愉快！' }]);
         setIsTyping(false);
      }, 1500);
+  };
+
+  const handleOpenShop = () => {
+     window.dispatchEvent(new CustomEvent('OPEN_AGENCY_SHOP'));
   };
 
   return (
@@ -51,7 +54,7 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
               <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white"><Bot size={20}/></div>
               <div>
                  <h3 className="font-bold text-sm text-slate-900">黄小西 · 智能助手</h3>
-                 <p className="text-[10px] text-green-600 font-bold uppercase tracking-tighter">Active Recommendation</p>
+                 <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-tighter">Exclusive Service</p>
               </div>
            </div>
         </div>
@@ -75,19 +78,19 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
 
          {showOrderCard && (
             <div className="ml-12 space-y-4 animate-in slide-in-from-bottom-4 duration-700">
-               {/* 1. AI 推荐卡片 */}
+               {/* 1. AI 服务建议卡片 */}
                <div className="bg-white rounded-[2.5rem] shadow-2xl border border-indigo-100 overflow-hidden max-w-sm relative group">
                   <div className="h-40 relative">
                      <img src="https://picsum.photos/id/1018/400/250" className="w-full h-full object-cover" alt="Product" />
                      <div className="absolute top-4 left-4 bg-indigo-600/90 backdrop-blur-md text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 font-black border border-white/20">
-                        <Sparkles size={12} className="text-yellow-400" /> 旗舰店特惠
+                        <Sparkles size={12} className="text-yellow-400" /> AI 专属服务建议
                      </div>
                   </div>
                   <div className="p-6">
                      <div className="flex justify-between items-start mb-4">
                         <div>
                            <h4 className="font-black text-slate-800 text-base leading-tight">黄果树VIP免排队特权包</h4>
-                           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Priority Pass · 天悦直供</p>
+                           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Priority Pass</p>
                         </div>
                         <div className="text-right">
                            <div className="text-xl font-black text-indigo-600">¥198</div>
@@ -99,24 +102,26 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
                   </div>
                </div>
 
-               {/* 2. 进入天悦旗舰店入口 */}
+               {/* 2. 进入天悦旗舰店入口 (本次新增逻辑) */}
                <div 
-                 onClick={onOpenShop}
-                 className="max-w-sm bg-indigo-50 border border-indigo-200 rounded-2xl p-4 flex items-center justify-between group cursor-pointer hover:bg-white hover:border-indigo-400 transition-all shadow-sm"
+                  onClick={handleOpenShop}
+                  className="max-w-sm bg-white border border-indigo-100 rounded-[2rem] p-5 flex items-center justify-between group cursor-pointer hover:border-indigo-500 hover:shadow-xl hover:shadow-indigo-500/10 transition-all shadow-sm"
                >
-                  <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md transition-transform group-hover:rotate-12">
-                        <Building2 size={20} />
+                  <div className="flex items-center gap-4">
+                     <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-sm">
+                        <Store size={24} />
                      </div>
                      <div>
-                        <div className="text-xs font-bold text-slate-800 flex items-center gap-1">
-                           进入天悦旅行社旗舰店
-                           <span className="bg-indigo-600 text-[8px] text-white px-1 py-0.5 rounded">官方</span>
+                        <div className="text-sm font-black text-slate-800 flex items-center gap-1.5">
+                           天悦旅行社官方旗舰店
+                           <ShieldCheck size={14} className="text-emerald-500" />
                         </div>
-                        <p className="text-[10px] text-slate-500">查看更多当地好物、口碑路线及导游推荐</p>
+                        <p className="text-[10px] text-slate-400 font-medium mt-0.5 tracking-tight">查看更多金牌线路与深度游管家服务</p>
                      </div>
                   </div>
-                  <ChevronRight size={16} className="text-indigo-300 group-hover:text-indigo-600 transition-colors" />
+                  <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all">
+                     <ChevronRight size={18} />
+                  </div>
                </div>
             </div>
          )}
@@ -127,9 +132,9 @@ const AgentChatView: React.FC<Props> = ({ agent, onBack, onOpenShop }) => {
                   <div className="absolute top-0 right-0 p-4 opacity-10"><CheckCircle2 size={100} /></div>
                   <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shrink-0"><CheckCircle2 size={32} /></div>
                   <div>
-                     <div className="text-[10px] opacity-80 font-black uppercase tracking-widest mb-1">Electronic Voucher</div>
-                     <div className="font-black text-base">权益已生效：GZ-88293-XP</div>
-                     <p className="text-[10px] mt-1 opacity-90">导游已同步收到您的意图订购</p>
+                     <div className="text-[10px] opacity-80 font-black uppercase tracking-widest mb-1">Service Voucher</div>
+                     <div className="font-black text-base">特权已开启：GZ-88293-XP</div>
+                     <p className="text-[10px] mt-1 opacity-90">导游已收到您的特权开启通知</p>
                   </div>
                </div>
             </div>
